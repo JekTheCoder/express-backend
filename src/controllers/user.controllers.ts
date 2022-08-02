@@ -29,3 +29,12 @@ export const getOneUser = async (request: Request, response: Response) => {
     if (!user) return response.status(404).end();
     return response.json(user);
 }
+
+export async function getToken(request: Request, response: Response) {
+    const { username, password } = request.body;
+
+    if (!username || !password) return response.status(403).end();
+    if (typeof username !== 'string' || typeof password !== 'string') return response.status(400).end();
+    
+    // TODO: Complete this
+}
