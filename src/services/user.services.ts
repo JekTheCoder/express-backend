@@ -1,6 +1,7 @@
 import User from '../database/models/user.model';
 
 export interface NewUser {
+    username: string
     name: string
     password: string
 }

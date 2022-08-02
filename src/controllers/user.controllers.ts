@@ -7,12 +7,12 @@ export const getAllUsers = async (request: Request, response: Response) => {
 }
 
 export const createOneUser = async (request: Request, response: Response) => {
-    const { name, password } = request.body;
+    const { username, name, password } = request.body;
 
-    if (!name || !password) return response.status(400).end();
-    if (typeof name !== 'string' || typeof password !== 'string') return response.status(400).end();
+    if (!username || !password) return response.status(400).end();
+    if (typeof username !== 'string' || typeof password !== 'string' || typeof name !== 'string') return response.status(400).end();
     
-    await UserServices.createOneUser({ name, password });
+    await UserServices.createOneUser({ username, name, password });
     response.status(201).end();
 }
 
