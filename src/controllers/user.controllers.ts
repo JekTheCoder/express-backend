@@ -1,6 +1,7 @@
 import {Request, Response} from 'express';
 import * as UserServices from '../services/user.services';
-import { NewUser } from '../services/user.services';
+import { compareSync } from 'bcrypt';
+import { sign } from 'jsonwebtoken';
 
 export const getAllUsers = async (request: Request, response: Response) => {
     response.json(await UserServices.getAllUsers());
@@ -24,7 +25,7 @@ export const getOneUser = async (request: Request, response: Response) => {
 
     if (idNumber === NaN) return response.status(400).end();
 
-    const user = await UserServices.getOneUser(idNumber);
+    const user = await UserServices.getOneUserById(idNumber);
 
     if (!user) return response.status(404).end();
     return response.json(user);
@@ -36,5 +37,14 @@ export async function getToken(request: Request, response: Response) {
     if (!username || !password) return response.status(403).end();
     if (typeof username !== 'string' || typeof password !== 'string') return response.status(400).end();
     
-    // TODO: Complete this
+    const user = await UserServices.getOneUserByUsername(username);
+
+    if (
+        !user || 
+        !compareSync(password, user.password)
+    ) return response.status(403).end();
+
+    const token = sign({ id: user.id, username }, process.env.TOKEN_SECRET!);
+
+    response.status(200).json({ username, name: user.name, token });
 }
