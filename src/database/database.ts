@@ -10,4 +10,8 @@ const database = process.env.DB_NAME || '';
 
 const sequelize = new Sequelize(`${method}://${user}:${password}@${host}:${PORT}/${database}`);
 
+sequelize.query('SET FOREIGN_KEY_CHECKS = 0;')
+    .then(() => sequelize.sync({ force: true }))
+    .then(() => sequelize.query('SET FOREIGN_KEY_CHECKS = 1;'))
+
 export default sequelize;

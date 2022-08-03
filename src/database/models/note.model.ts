@@ -22,7 +22,6 @@ Note.init({
 }, 
 {
     sequelize,
-    modelName: 'post',
     timestamps: true
 });
 

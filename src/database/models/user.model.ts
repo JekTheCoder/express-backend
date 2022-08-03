@@ -53,6 +53,4 @@ User.init({
     updatedAt: false
 })
 
-User.sync({ force: true });
-
 export default User;
