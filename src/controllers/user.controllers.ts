@@ -13,6 +13,9 @@ export const createOneUser = async (request: Request, response: Response) => {
     if (!username || !password) return response.status(400).end();
     if (typeof username !== 'string' || typeof password !== 'string' || typeof name !== 'string') return response.status(400).end();
     
+    const existUser = await UserServices.getOneUserByUsername(username);
+    if (existUser) return response.status(400).json({ error: "User already exists" });
+
     const user = await UserServices.createOneUser({ username, name, password });
 
     const token = sign({ id: user.id, username }, process.env.TOKEN_SECRET!);
