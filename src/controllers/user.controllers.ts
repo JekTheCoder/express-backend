@@ -13,8 +13,10 @@ export const createOneUser = async (request: Request, response: Response) => {
     if (!username || !password) return response.status(400).end();
     if (typeof username !== 'string' || typeof password !== 'string' || typeof name !== 'string') return response.status(400).end();
     
-    await UserServices.createOneUser({ username, name, password });
-    response.status(201).end();
+    const user = await UserServices.createOneUser({ username, name, password });
+
+    const token = sign({ id: user.id, username }, process.env.TOKEN_SECRET!);
+    response.status(201).json({ username, name, token });
 }
 
 export const getOneUser = async (request: Request, response: Response) => {
