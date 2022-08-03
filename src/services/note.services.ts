@@ -7,3 +7,4 @@ export interface newNote {
 
 export const getAllNotesByUser = (userId: number) => Note.findAll({ where: { userId } });
 export const createOneNote = (note: newNote) => Note.create({ ...note });
+export const deleteOneNote = (userId: number, id: number) => Note.destroy({ where: { userId, id } });
