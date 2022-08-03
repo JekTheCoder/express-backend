@@ -1,10 +1,11 @@
 import { Router } from 'express';
-import { getAllNotesByUser, auth, createOneNote } from '../controllers/notes.controllers';
+import { getAllNotesByUser, createOneNote } from '../controllers/notes.controllers';
+import { authByToken } from '../middlewares/auth-by-token';
 
 const noteRoutes = Router();
 
 noteRoutes
-    .use('/', auth)
+    .use('/', authByToken)
     .get('/', getAllNotesByUser)
     .post('/', createOneNote);
 
